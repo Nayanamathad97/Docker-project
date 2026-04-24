@@ -1,7 +1,7 @@
 services:
   # PHP Application
   php-app:
-    image: nayanamathad97/docker:1
+    image: nayanapreetham/docker:1
     container_name: php-image
     ports:
       - "80:80"
