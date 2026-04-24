@@ -12,7 +12,20 @@ pipeline {
 
         stage("Checkout") {
             steps {
-                git 'https://github.com/Nayanamathad97/Docker-project.git'
+                // Uses Jenkins built-in SCM checkout automatically
+                echo "Code checked out from GitHub"
+            }
+        }
+
+        stage("Copy Code to Docker EC2") {
+            steps {
+                script {
+                    sshagent(['ec2']) {
+                        sh """
+                        scp -o StrictHostKeyChecking=no -r . ${DOCKER_EC2}:/home/ubuntu/app
+                        """
+                    }
+                }
             }
         }
 
@@ -22,7 +35,7 @@ pipeline {
                     sshagent(['ec2']) {
                         sh """
                         ssh -o StrictHostKeyChecking=no ${DOCKER_EC2} '
-                            cd /home/ubuntu &&
+                            cd /home/ubuntu/app &&
                             docker build -t ${DockerImageTag} .
                         '
                         """
