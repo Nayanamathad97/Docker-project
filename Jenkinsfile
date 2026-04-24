@@ -7,7 +7,7 @@ pipeline {
         DockerComposeFile = 'docker-compose.yml'
         DotEnvFile = '.env'
         Dimage = 'barks_meows_paradise1'
-        DOCKERHUB_CREDENTIALS = credentials('ferdinandjrdocker')
+        DOCKERHUB_CREDENTIALS = credentials('nayanapreetham')
         DockerImageTag = "${ImageRegistry}/${JOB_NAME}:${BUILD_NUMBER}"
     }
 
