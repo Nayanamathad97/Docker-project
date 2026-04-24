@@ -1,10 +1,11 @@
 services:
   # PHP Application
   php-app:
-    image: ${DC_IMAGE_NAME}
+    image: nayanamathad97/docker:1
     container_name: php-image
     ports:
-      - "80:80"  # Expose port 80 on the container to port 8080 on localhost
+      - "80:80"
+    restart: always
     environment:
       DB_HOST: db
       DB_NAME: ${MYSQL_DATABASE}
@@ -20,6 +21,7 @@ services:
     image: mysql:8.0.36
     container_name: mysql-db
     restart: always
+    command: --default-authentication-plugin=mysql_native_password
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
@@ -28,13 +30,13 @@ services:
     volumes:
       - db_data:/var/lib/mysql
 
-  # phpMyAdmin for Database Administration
+  # phpMyAdmin
   phpmyadmin:
-    image: phpmyadmin
+    image: phpmyadmin/phpmyadmin:latest
     container_name: phpmyadmin
     restart: always
     ports:
-      - "8081:80"  # Expose phpMyAdmin on port 8081
+      - "8081:80"
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
